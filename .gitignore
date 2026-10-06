@@ -1,0 +1,18 @@
+# dependencies
+node_modules/
+
+# logs and local test output
+*.log
+logs/
+npm-debug.log*
+
+# editors / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# never commit private overlays or state (they live in ~/.zaun-local, but just in case)
+.zaun-local/
+.env
+.env.*

@@ -1,0 +1,24 @@
+# Starter config for herdr (https://herdr.dev), seeded by zaun to
+# ~/.config/herdr/config.toml only if that file doesn't exist yet.
+# After that the file is yours: zaun never touches it again.
+# Validate changes with `herdr config check`.
+
+# Skip the first-run onboarding screen.
+onboarding = false
+
+[ui.toast]
+# Where herdr pops up notifications (agent finished, needs input, ...):
+# "herdr" (in-app toast), "terminal" (outer terminal, works over SSH),
+# "system" (the OS notification service) or "off".
+delivery = "system"
+
+[theme]
+name = "one-dark"
+# Don't switch themes when the host terminal reports a light/dark change.
+auto_switch = false
+
+[terminal]
+# zaun installs zsh (module `shell`). Login shells read ~/.zprofile too, so
+# PATH additions from installers are picked up in every pane.
+default_shell = "/usr/bin/zsh"
+shell_mode = "login"

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# zaun launcher: find a recent Node and run src/cli.ts with it.
+# ~/.local/bin/zaun is a symlink to this file.
+set -euo pipefail
+
+# Repo root = parent of the real location of this script (follows the symlink).
+ZAUN_DIR="${ZAUN_DIR:-$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)}"
+export ZAUN_DIR
+
+# Node >= 22.18 runs TypeScript directly (type stripping), so no build step.
+node_ok() {
+  command -v node >/dev/null 2>&1 &&
+    node -e 'const [a,b]=process.versions.node.split(".").map(Number); process.exit(a>22||(a===22&&b>=18)?0:1)' 2>/dev/null
+}
+
+if ! node_ok; then
+  # Not on PATH (a shell started before the install, cron, ssh host cmd, or a
+  # too-old system node): use fnm's default Node, which bootstrap.sh and the
+  # node module install. The alias folder is a plain symlink, so no `fnm env`
+  # (which would create files) is needed.
+  FNM_DIR="${FNM_DIR:-$HOME/.local/share/fnm}"
+  if [[ -x "$FNM_DIR/aliases/default/bin/node" ]]; then
+    export PATH="$FNM_DIR/aliases/default/bin:$PATH"
+  elif [[ -x "$FNM_DIR/fnm" ]]; then
+    export PATH="$FNM_DIR:$PATH"
+    eval "$("$FNM_DIR/fnm" env --shell bash)"
+  fi
+fi
+
+if ! node_ok; then
+  echo "zaun: Node.js >= 22.18 not found. Re-run bootstrap.sh, or install Node LTS and try again." >&2
+  exit 1
+fi
+
+exec node "$ZAUN_DIR/src/cli.ts" "$@"

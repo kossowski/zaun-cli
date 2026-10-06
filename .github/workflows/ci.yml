@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Typecheck + unit tests, on the oldest supported Node and the current LTS.
+  test:
+    name: typecheck + unit tests (Node ${{ matrix.node }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['22.18', 'lts/*']
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+
+  # Lint every shell script (install.sh files are tutorial material: keep them clean).
+  # Info-level notes (e.g. SC1091 "not following /etc/os-release") are not reported.
+  shellcheck:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: shellcheck
+        run: |
+          shellcheck --version
+          git ls-files -z '*.sh' 'bin/zaun' | xargs -0 shellcheck --severity=warning
+
+  # End to end: run bootstrap.sh non-interactively on a fresh GitHub runner,
+  # exactly like a user would (but from this checkout instead of GitHub),
+  # then run the health check. docker and tailscale are left out: the runner
+  # already has Docker, and a CI machine shouldn't join a tailnet.
+  e2e:
+    name: e2e (${{ matrix.runner }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    steps:
+      - uses: actions/checkout@v6
+      - name: bootstrap.sh + zaun install
+        env:
+          ZAUN_REPO: ${{ github.workspace }}
+        run: >-
+          ./bootstrap.sh --yes
+          --only shell,node,python,gh,git-config,claude-config,codex-config,herdr-config,skills
+          --git-name "zaun CI"
+          --git-email "ci@example.com"
+      - name: zaun install again (must change nothing)
+        run: ~/.local/bin/zaun install --yes
+      - name: zaun doctor
+        # Exits 1 on any failed check. Warnings (agents not logged in, gh without a token) are expected here.
+        run: ~/.local/bin/zaun doctor
+      - name: Upload install logs
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: zaun-logs-${{ matrix.runner }}
+          path: ~/.zaun-local/logs/
+          if-no-files-found: ignore

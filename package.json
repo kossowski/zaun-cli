@@ -1,0 +1,30 @@
+{
+    "name": "zaun",
+    "version": "1.0.0",
+    "description": "Set up an isolated Ubuntu/Debian VM or VPS for AI-assisted development, with a built-in health check.",
+    "license": "MIT",
+    "type": "module",
+    "private": true,
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/kossowski/zaun-cli.git"
+    },
+    "engines": {
+        "node": ">=22.18"
+    },
+    "scripts": {
+        "start": "node src/cli.ts",
+        "typecheck": "tsc",
+        "test": "vitest run"
+    },
+    "dependencies": {
+        "@clack/prompts": "^1.8.1",
+        "picocolors": "^1.1.1",
+        "smol-toml": "^1.9.0"
+    },
+    "devDependencies": {
+        "@types/node": "^22.20.5",
+        "typescript": "^7.0.2",
+        "vitest": "^5.0.3"
+    }
+}

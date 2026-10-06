@@ -1,0 +1,68 @@
+# starship prompt config shipped by zaun: https://starship.rs/config/
+#
+# ~/.config/starship.toml is a symlink to this file, so edits in the zaun repo
+# apply immediately. To customise without touching the repo, replace the
+# symlink with your own copy (zaun backs up anything it replaces).
+#
+# NOTE: the symbols below are Nerd Font glyphs. Use a Nerd Font in your
+# terminal (e.g. "JetBrainsMono Nerd Font", https://www.nerdfonts.com),
+# otherwise you'll see empty boxes.
+
+"$schema" = "https://starship.rs/config-schema.json"
+
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$nodejs\
+$python\
+$cmd_duration\
+$line_break\
+$character"""
+
+[username]
+show_always = true
+style_user = "bold yellow"
+style_root = "bold red"
+format = "[$user]($style)"
+
+[hostname]
+ssh_only = false
+style = "bold yellow"
+format = "[@$hostname]($style) "
+
+[directory]
+style = "bold cyan"
+truncation_length = 4
+truncate_to_repo = true
+read_only = " ro"
+
+[git_branch]
+symbol = " "
+style = "bold purple"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "bold yellow"
+format = "([$all_status$ahead_behind]($style) )"
+
+[nodejs]
+symbol = " "
+style = "green"
+format = "[$symbol($version)]($style) "
+
+[python]
+symbol = " "
+style = "yellow"
+format = '[${symbol}(${version})( \($virtualenv\))]($style) '
+
+[cmd_duration]
+min_time = 2_000
+style = "dimmed white"
+format = "[took $duration]($style) "
+
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol = "[➜](bold red)"

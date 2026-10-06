@@ -1,0 +1,16 @@
+# zaun's public base for ~/.codex/config.toml. Deliberately small.
+#
+# How zaun applies it: ~/.codex/config.toml = existing file + this file +
+# your overlay, merged (keys Codex or you wrote stay; keys set here win over
+# them; the overlay wins over everything). The merged file is rewritten
+# without comments.
+#
+# Personal settings (model, model_reasoning_effort, approval_policy,
+# sandbox_mode, MCP servers, ...) go in your private overlay:
+#   ~/.zaun-local/codex/config.toml
+# Reference: https://developers.openai.com/codex/config-reference
+
+# Codex turns file citations into editor links (default: vscode://...). On a
+# remote VM those paths don't exist on the machine running the editor, so
+# show plain paths instead.
+file_opener = "none"
