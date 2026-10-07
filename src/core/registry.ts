@@ -19,7 +19,6 @@ import gitConfig from '../../modules/git-config/index.ts';
 import claudeConfig from '../../modules/claude-config/index.ts';
 import codexConfig from '../../modules/codex-config/index.ts';
 import herdrConfig from '../../modules/herdr-config/index.ts';
-import skills from '../../modules/skills/index.ts';
 
 export const modules: Module[] = [
   base,
@@ -37,7 +36,6 @@ export const modules: Module[] = [
   claudeConfig,
   codexConfig,
   herdrConfig,
-  skills,
 ];
 
 export function getModule(id: string): Module | undefined {

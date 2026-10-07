@@ -102,10 +102,9 @@ less ~/.zaun/bootstrap.sh          # read it
 
 `zaun install` then asks, in this order:
 
-1. **Which modules?** A grouped checklist. On the first run everything except `skills` is
-   preselected; later runs preselect your last choice. Installed modules are marked `✓ installed`
-   and skipped.
-2. **Private overlay?** (only if you picked `claude-config`, `codex-config` or `skills`):
+1. **Which modules?** A grouped checklist. On the first run everything is preselected; later
+   runs preselect your last choice. Installed modules are marked `✓ installed` and skipped.
+2. **Private overlay?** (only if you picked `claude-config` or `codex-config`):
    none, a local folder `~/.zaun-local`, or clone your private git repo into it.
    See [Configuration](configuration.md).
 3. **Git name and email** (if you picked `git-config`), prefilled from your existing git config.

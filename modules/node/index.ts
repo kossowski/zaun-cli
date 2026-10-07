@@ -31,7 +31,7 @@ export default defineModule({
   async install(ctx) {
     ctx.progress('installing fnm, Node LTS and pnpm');
     await ctx.runScript('node', [], { env: { FNM_DIR: fnmDir(ctx) } });
-    // Later modules (e.g. skills, which runs npx) need fnm's default Node on PATH.
+    // Later modules need fnm's default Node on PATH.
     ctx.addPath(fnmDir(ctx));
     ctx.addPath(defaultBin(ctx));
     if (existsSync(nvmDir(ctx))) {

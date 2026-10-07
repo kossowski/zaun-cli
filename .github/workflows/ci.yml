@@ -62,7 +62,7 @@ jobs:
           ZAUN_REPO: ${{ github.workspace }}
         run: >-
           ./bootstrap.sh --yes
-          --only shell,node,python,gh,git-config,claude-config,codex-config,herdr-config,skills
+          --only shell,node,python,gh,git-config,claude-config,codex-config,herdr-config
           --git-name "zaun CI"
           --git-email "ci@example.com"
       - name: zaun install again (must change nothing)

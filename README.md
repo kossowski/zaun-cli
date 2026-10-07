@@ -101,20 +101,18 @@ Bootstrap passes arguments through: `curl … | bash -s -- --all --yes …`.
 |                     | `claude-config` | Claude Code status line + base `settings.json`, merged with yours          |
 |                     | `codex-config`  | base `~/.codex/config.toml`, merged with yours                             |
 |                     | `herdr-config`  | a starter herdr config (only if you don't have one)                        |
-|                     | `skills`        | agent skills from your list (off by default)                               |
 
 Each module that runs commands has a short, readable `modules/<id>/install.sh`.
 
 ## Your own settings
 
-Personal settings (model, permissions, MCP servers, skills) go in a private overlay at
+Personal settings (model, permissions, MCP servers) go in a private overlay at
 `~/.zaun-local/`, merged on top of zaun's base config on every `zaun install`:
 
 ```
 ~/.zaun-local/
 ├── claude/settings.json   merged into ~/.claude/settings.json
-├── codex/config.toml      merged into ~/.codex/config.toml
-└── skills.json            agent skills to install
+└── codex/config.toml      merged into ~/.codex/config.toml
 ```
 
 Merge rules, examples and keeping the overlay in a private repo:
@@ -124,7 +122,7 @@ Merge rules, examples and keeping the overlay in a private repo:
 
 - [Setup guide](docs/setup.md): machine creation, what bootstrap does, post-install details
 - [GitHub token](docs/github-token.md): token permissions, rotation, commit signing
-- [Configuration](docs/configuration.md): overlay merging and agent skills
+- [Configuration](docs/configuration.md): overlay merging
 - [Maintenance](docs/maintenance.md): health check, updating, uninstall, troubleshooting
 - [Architecture](docs/architecture.md), [Contributing](CONTRIBUTING.md), [Security](SECURITY.md)
 

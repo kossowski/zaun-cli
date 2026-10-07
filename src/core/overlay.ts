@@ -1,5 +1,5 @@
 // The private overlay: ~/.zaun-local holds your personal additions on top of
-// the public config (claude/settings.json, codex/config.toml, skills.json).
+// the public config (claude/settings.json, codex/config.toml).
 // It can be a plain folder or a clone of your own private git repo.
 
 import { spawnSync } from 'node:child_process';

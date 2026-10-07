@@ -143,7 +143,7 @@ Other helpers: `deepMerge(...layers)`, `upsertBlock(content, body, name?, commen
 
 - `state.json`: selected modules, install timestamps, git identity (prompted or
   from `--git-name`/`--git-email`), overlay choice
-- optional overlays: `claude/settings.json`, `codex/config.toml`, `skills.json`
+- optional overlays: `claude/settings.json`, `codex/config.toml`
 - `backups/<timestamp>/`, `logs/install-<timestamp>.log`
 
 It can be a plain folder or a clone of the user's own private git repo (chosen

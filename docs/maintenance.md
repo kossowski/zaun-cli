@@ -67,7 +67,6 @@ pull; merged files (`settings.json`, `config.toml`) need the `zaun install`.
 | uv / Python                         | `uv self update`, `uv python install <version>`                                                                    |
 | Neovim                              | `bash ~/.zaun/modules/neovim/install.sh --update`                                                                  |
 | starship                            | re-run the [installer](https://starship.rs) with `--bin-dir ~/.local/bin`                                          |
-| skills                              | `npx skills --help` (the skills CLI has its own update commands)                                                   |
 
 ## Uninstall and reset
 

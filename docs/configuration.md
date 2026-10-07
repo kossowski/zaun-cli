@@ -3,14 +3,13 @@
 ## Your own settings (private overlay)
 
 zaun ships a deliberately small config (`config/` in this repo). Your personal settings (model,
-permissions, MCP servers, your skills) live in a **private overlay** in `~/.zaun-local/`, outside
+permissions, MCP servers) live in a **private overlay** in `~/.zaun-local/`, outside
 the zaun repo, so updating zaun never conflicts with them and they never end up in a public repo.
 
 ```
 ~/.zaun-local/
 ├── claude/settings.json   optional: merged into ~/.claude/settings.json
 ├── codex/config.toml      optional: merged into ~/.codex/config.toml
-├── skills.json            optional: appended to config/skills.json
 ├── state.json             zaun's own: your module selection, git identity, overlay choice
 ├── backups/<timestamp>/   zaun's own: every file zaun replaced
 └── logs/                  zaun's own: install-<timestamp>.log
@@ -59,8 +58,6 @@ approval_policy = "on-request"
 sandbox_mode = "workspace-write"
 ```
 
-`~/.zaun-local/skills.json`: see [Agent skills](#agent-skills).
-
 ### Keep it in a private git repo
 
 ```sh
@@ -76,42 +73,3 @@ URL (HTTPS works with the [GitHub token](github-token.md); an isolated OrbStack 
 zaun clones it only into an empty `~/.zaun-local` and runs `git pull --ff-only` on later
 installs. Cloning before your first `gh` login? Run the first install with no overlay, log in with the [GitHub token](github-token.md),
 then run `zaun install` again.
-
-## Agent skills
-
-[Skills](https://skills.sh) are folders with a `SKILL.md` that teach an agent a task. The
-`skills` module installs them for your user with the `skills` CLI. The list lives in
-`config/skills.json` (empty on purpose) and in your overlay `~/.zaun-local/skills.json`; both
-have the same format and are concatenated:
-
-```json
-{
-  "skills": [
-    {
-      "source": "vercel-labs/agent-skills",
-      "skills": ["web-design-guidelines"]
-    },
-    {
-      "source": "anthropics/skills",
-      "skills": ["skill-creator"],
-      "agents": ["claude-code"]
-    }
-  ]
-}
-```
-
-| Field    | Meaning                                                                                                                      |
-| -------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `source` | required: a GitHub `owner/repo`, or anything `npx skills add` accepts                                                        |
-| `skills` | optional: which skills from the source; omit to install all of them                                                          |
-| `agents` | optional: [skills CLI agent ids](https://github.com/vercel-labs/skills#supported-agents); default `["claude-code", "codex"]` |
-
-For each entry zaun runs `npx -y skills add <source> -g -y -a <agent>… [-s <skill>…]`. Skills
-land in `~/.agents/skills/` (Codex reads them there) with links in `~/.claude/skills/`. The
-`skills` module is not preselected; pick it in the menu or run:
-
-```sh
-zaun install --only skills --yes
-```
-
-Only install skills from sources you trust: a skill is instructions your agent will follow.

@@ -7,14 +7,14 @@ const mods = [
   { id: 'docker', deps: ['base'] },
   { id: 'node', deps: ['base'] },
   { id: 'claude-code', deps: ['base'] },
-  { id: 'skills', deps: ['node', 'claude-code'] },
+  { id: 'tooling', deps: ['node', 'claude-code'] },
 ];
 const ids = (plan: { ordered: { id: string }[] }) => plan.ordered.map((m) => m.id);
 
 describe('resolvePlan', () => {
   it('adds missing dependencies and reports them', () => {
-    const plan = resolvePlan(['skills'], mods);
-    expect(ids(plan)).toEqual(['base', 'node', 'claude-code', 'skills']);
+    const plan = resolvePlan(['tooling'], mods);
+    expect(ids(plan)).toEqual(['base', 'node', 'claude-code', 'tooling']);
     expect(plan.added).toEqual(['base', 'node', 'claude-code']);
   });
 
@@ -29,7 +29,7 @@ describe('resolvePlan', () => {
   });
 
   it('includes each module once', () => {
-    expect(ids(resolvePlan(['skills', 'node', 'base'], mods))).toEqual(['base', 'node', 'claude-code', 'skills']);
+    expect(ids(resolvePlan(['tooling', 'node', 'base'], mods))).toEqual(['base', 'node', 'claude-code', 'tooling']);
   });
 
   it('detects cycles', () => {
@@ -45,7 +45,7 @@ describe('resolvePlan', () => {
 
   it('the real registry has no cycles or dangling deps', () => {
     const plan = resolvePlan(modules.map((m) => m.id), modules);
-    expect(plan.ordered).toHaveLength(16);
+    expect(plan.ordered).toHaveLength(15);
     expect(plan.ordered[0]!.id).toBe('base');
   });
 });

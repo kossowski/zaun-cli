@@ -126,34 +126,21 @@ describe('install planning', () => {
     expect(mod('codex-config').install).toHaveBeenCalledOnce();
   });
 
-  it('installs skills newly introduced by an overlay update', async () => {
-    useRealModule('skills');
-    writeState({ ...emptyState(), overlay: { kind: 'git', url: 'fixture' } });
-    vi.mocked(overlay.pullOverlay).mockImplementation(() => {
-      write(join(local, 'skills.json'), JSON.stringify({ skills: [{ source: 'fixture/repo', skills: ['new-skill'] }] }));
-      return null;
-    });
-    // Keep the real read-only skill probe; intercept the network installer.
-    vi.mocked(mod('skills').install).mockResolvedValue(undefined);
-    expect(await install({ only: ['skills'], all: false, yes: true })).toBe(0);
-    expect(mod('skills').install).toHaveBeenCalledOnce();
-  });
-
   it('skips overlay modules when an update changes nothing', async () => {
     writeState({ ...emptyState(), overlay: { kind: 'git', url: 'fixture' } });
-    expect(await install({ only: ['claude-config', 'codex-config', 'skills'], all: false, yes: true })).toBe(0);
-    for (const id of ['claude-config', 'codex-config', 'skills']) expect(mod(id).install).not.toHaveBeenCalled();
+    expect(await install({ only: ['claude-config', 'codex-config'], all: false, yes: true })).toBe(0);
+    for (const id of ['claude-config', 'codex-config']) expect(mod(id).install).not.toHaveBeenCalled();
   });
 
   it('does not ask when only an overlay check is pending', async () => {
     writeState({ ...emptyState(), overlay: { kind: 'git', url: 'fixture' } });
     vi.mocked(p.confirm).mockResolvedValue(false);
-    expect(await install({ only: ['claude-config', 'codex-config', 'skills'], all: false, yes: false })).toBe(0);
+    expect(await install({ only: ['claude-config', 'codex-config'], all: false, yes: false })).toBe(0);
     expect(p.confirm).not.toHaveBeenCalled();
     expect(p.cancel).not.toHaveBeenCalled();
     expect(p.log.success).toHaveBeenCalledWith('Everything selected is already installed.');
     expect(overlay.pullOverlay).toHaveBeenCalledOnce();
-    for (const id of ['claude-config', 'codex-config', 'skills']) expect(mod(id).install).not.toHaveBeenCalled();
+    for (const id of ['claude-config', 'codex-config']) expect(mod(id).install).not.toHaveBeenCalled();
   });
 
   it.each([false, true])('asks again before applying an overlay change (accepted: %s)', async (accept) => {

@@ -33,7 +33,7 @@ export interface InstallFlags {
 }
 
 /** Modules whose config can be extended by the private overlay. */
-const OVERLAY_USERS = new Set(['claude-config', 'codex-config', 'skills']);
+const OVERLAY_USERS = new Set(['claude-config', 'codex-config']);
 
 export async function install(flags: InstallFlags): Promise<number> {
   // Checked before createContext adds it: ~/.profile only adds ~/.local/bin if it
