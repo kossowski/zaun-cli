@@ -76,6 +76,10 @@ export function errorMessage(err: unknown): string {
   return err instanceof Error ? err.message : String(err);
 }
 
+/** Prompt validator: rejects empty or whitespace-only input with `message`. */
+export const requiredText = (message: string) => (value: string | undefined) =>
+  value?.trim() ? undefined : message;
+
 /** Loose check, just enough to catch typos like a missing @. */
 export function isEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+$/.test(value);

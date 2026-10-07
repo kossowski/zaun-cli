@@ -18,6 +18,7 @@ import {
   inlineCode,
   isEmail,
   orExit,
+  requiredText,
   symbols,
   title,
 } from '../core/ui.ts';
@@ -246,7 +247,7 @@ async function chooseOverlay(current: OverlayChoice): Promise<OverlayChoice> {
     await p.text({
       message: 'Git URL of your overlay repo',
       placeholder: 'git@github.com:you/zaun-local.git',
-      validate: (v) => (v && v.trim() ? undefined : 'Please enter a URL'),
+      validate: requiredText('Please enter the git URL of your overlay repo'),
     }),
   );
   return { kind: 'git', url: url.trim() };
@@ -265,9 +266,8 @@ async function gitIdentity(state: State, flags: InstallFlags, interactive: boole
   if (!interactive || bothFlags) return name && email ? { name, email } : state.git;
 
   p.note('This is not a login: GitHub access is set up after the install (`gh auth login`).', 'Git commit author');
-  const required = (v: string | undefined) => (v && v.trim() ? undefined : 'Required');
   const newName = orExit(
-    await p.text({ message: 'Your name (shown as commit author)', initialValue: name, validate: required }),
+    await p.text({ message: 'Your name (shown as commit author)', initialValue: name, validate: requiredText('Please enter your name') }),
   );
   const newEmail = orExit(
     await p.text({
