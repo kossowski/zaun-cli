@@ -1,6 +1,6 @@
 {
     "name": "zaun",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Set up an isolated Ubuntu/Debian VM or VPS for AI-assisted development, with a built-in health check.",
     "license": "MIT",
     "type": "module",
