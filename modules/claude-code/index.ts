@@ -1,6 +1,6 @@
 // claude-code: Anthropic's Claude Code CLI, installed with the official native
-// installer (see install.sh). Native installs update themselves, so zaun only
-// installs when `claude` is missing.
+// installer (see install.sh). zaun only installs when `claude` is missing;
+// updates are `claude update` (the base settings.json disables the auto-updater).
 
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';

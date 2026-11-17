@@ -3,6 +3,30 @@
     "type": "command",
     "command": "~/.claude/statusline.sh"
   },
+  "tui": "fullscreen",
   "theme": "dark",
-  "tui": "fullscreen"
+  "env": {
+    "DISABLE_AUTOUPDATER": "1",
+    "CLAUDE_CODE_DISABLE_AUTO_MEMORY": "1"
+  },
+  "autoUpdatesChannel": "stable",
+  "permissions": {
+    "defaultMode": "auto",
+    "deny": [
+      "DesignSync",
+      "NotebookEdit",
+      "PushNotification",
+      "RemoteTrigger",
+      "ScheduleWakeup",
+      "AskUserQuestion",
+      "CronCreate",
+      "CronDelete",
+      "CronList"
+    ]
+  },
+  "disableClaudeAiConnectors": true,
+  "disableBundledSkills": true,
+  "disableRemoteControl": false,
+  "disableWorkflows": true,
+  "enableArtifact": false
 }

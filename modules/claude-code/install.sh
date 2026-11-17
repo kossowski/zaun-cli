@@ -5,9 +5,9 @@
 #
 # The native installer downloads a self-contained binary (no Node.js needed)
 # into ~/.local/share/claude/versions/ and points ~/.local/bin/claude at it.
-# It runs as your normal user and must NOT be run with sudo. Native installs
-# update themselves in the background, so once Claude Code is there this
-# script leaves it alone.
+# It runs as your normal user and must NOT be run with sudo. Once Claude Code
+# is there this script leaves it alone: update it with `claude update` (zaun's
+# base settings.json turns off the background auto-updater).
 set -euo pipefail
 
 BIN="$HOME/.local/bin/claude"

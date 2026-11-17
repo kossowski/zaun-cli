@@ -60,7 +60,7 @@ pull; merged files (`settings.json`, `config.toml`) need the `zaun install`.
 | Tool                                | How                                                                                                                |
 | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | apt packages, Docker, gh, Tailscale | `sudo apt update && sudo apt upgrade`                                                                              |
-| Claude Code                         | updates itself in the background (`claude update` to force)                                                        |
+| Claude Code                         | `claude update` (zaun's base `settings.json` turns off the background auto-updater)                                |
 | Codex                               | offers updates on start; or re-run the official installer: `curl -fsSL https://chatgpt.com/codex/install.sh \| sh` |
 | herdr                               | `herdr update`                                                                                                     |
 | Node                                | `fnm install --lts && fnm default lts-latest`                                                                      |
