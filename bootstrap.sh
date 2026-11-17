@@ -33,6 +33,18 @@ node_ok() {
     node -e 'const [a,b]=process.versions.node.split(".").map(Number); process.exit(a>22||(a===22&&b>=18)?0:1)' 2>/dev/null
 }
 
+# Why node_ok failed, in Node's own words (e.g. a missing shared library).
+node_error() {
+  command -v node >/dev/null 2>&1 || { echo "node is not on PATH."; return; }
+  local out status=0
+  out="$(node -e 'process.stdout.write(process.versions.node)' 2>&1)" || status=$?
+  if (( status != 0 )); then
+    printf '%s\n' "${out:-node exited with status $status and printed nothing.}"
+  else
+    echo "Node $out is too old (zaun needs >= 22.18)."
+  fi
+}
+
 # Everything runs inside main(), called on the last line: if `curl | bash` is
 # cut off halfway, bash never executes a partial script.
 main() {
@@ -49,7 +61,8 @@ main() {
   sudo -n true 2>/dev/null || sudo -v || die "sudo is required."
 
   # --- 2. Minimal system packages -------------------------------------------
-  local pkgs=(git curl ca-certificates unzip) missing=()
+  # libatomic1: Node >= 26 links against it, and minimal images lack it.
+  local pkgs=(git curl ca-certificates unzip libatomic1) missing=()
   for pkg in "${pkgs[@]}"; do
     dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null | grep -q "install ok installed" || missing+=("$pkg")
   done
@@ -106,7 +119,7 @@ main() {
     quietly fnm install --lts || die 'Installing Node.js failed.'
     quietly fnm default lts-latest
     eval "$(fnm env --shell bash)"
-    node_ok || die "Node.js setup failed."
+    node_ok || die "Node.js setup failed: $(node_error)"
   fi
 
   # --- 5. Dependencies and the `zaun` command -----------------------------------

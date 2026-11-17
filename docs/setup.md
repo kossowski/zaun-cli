@@ -90,7 +90,7 @@ less ~/.zaun/bootstrap.sh          # read it
 
 1. Checks that this is an apt-based system (Ubuntu, Debian or a relative) and that you are not
    root, then asks for your sudo password once.
-2. Installs `git curl ca-certificates unzip` with apt, only the ones that are missing.
+2. Installs `git curl ca-certificates unzip libatomic1` with apt, only the ones that are missing.
 3. Clones zaun into `~/.zaun` (or updates it with `git pull --ff-only` if it's already there).
 4. Installs [fnm](https://github.com/Schniz/fnm) and the current Node LTS into
    `~/.local/share/fnm`, unless Node ≥ 22.18 is already there. zaun is TypeScript that Node runs
