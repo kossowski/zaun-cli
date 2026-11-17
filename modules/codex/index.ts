@@ -58,7 +58,6 @@ export default defineModule({
   },
 
   async nextSteps(ctx) {
-    // Read-only: only ask the user to log in if Codex says they aren't.
     return (await loginStatus(ctx)).ok ? [] : ['Run `codex login` (headless: `codex login --device-auth`)'];
   },
 });

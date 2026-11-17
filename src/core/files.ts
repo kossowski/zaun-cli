@@ -171,7 +171,6 @@ function readLayer(format: Format, path: string): PlainObject {
 export type MergeFormat = 'json' | 'toml';
 const formats: Record<MergeFormat, Format> = { json, toml };
 
-/** existing target (read through a symlink) + base + the overlays that exist, merged. */
 function computeMerge(format: Format, target: string, sources: MergeSources) {
   const stat = lstatOrUndefined(target);
   const isSymlink = stat?.isSymbolicLink() ?? false;
@@ -270,7 +269,6 @@ export function upsertBlock(content: string, body: string, name = 'zaun', commen
   return `${base}\n${block}\n`;
 }
 
-/** Apply `upsertBlock` to a file (created if missing). Backs up the file before changing it. */
 export function upsertManagedBlock(
   ctx: Context,
   file: string,

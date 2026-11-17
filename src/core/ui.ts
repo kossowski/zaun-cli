@@ -50,7 +50,6 @@ export function formatCheck(result: CheckResult): string {
   return `${symbols[result.status]} ${inlineCode(result.label)}${detail}${hint}`;
 }
 
-/** Summary like "12 ok · 2 warnings · 1 failed". */
 export function countLine(results: CheckResult[]): string {
   const n = (s: CheckStatus) => results.filter((r) => r.status === s).length;
   const parts = [pc.green(`${n('ok')} ok`)];
@@ -76,7 +75,6 @@ export function errorMessage(err: unknown): string {
   return err instanceof Error ? err.message : String(err);
 }
 
-/** Prompt validator: rejects empty or whitespace-only input with `message`. */
 export const requiredText = (message: string) => (value: string | undefined) =>
   value?.trim() ? undefined : message;
 
